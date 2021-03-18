@@ -26,6 +26,9 @@ public class Favorite {
     @Column(name = "report")
     private Integer report;
 
+    @Column(name = "madeday")
+    private Integer madeday;
+
     public Integer getId() {
         return id;
     }
@@ -48,6 +51,14 @@ public class Favorite {
 
     public void setReport(Integer report) {
         this.report = report;
+    }
+
+    public Integer getMadeday() {
+        return madeday;
+    }
+
+    public void setMadeday(Integer madeday) {
+        this.madeday = madeday;
     }
 
 }
