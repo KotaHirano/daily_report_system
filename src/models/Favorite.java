@@ -1,33 +1,34 @@
 package models;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 @NamedQueries({
-    @NamedQuery(
-        name = "getAllfavorite",
-        query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC"
-    )})
+        @NamedQuery(name = "getAllfavorite", query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC") })
 @Entity
 @Table(name = "favorite")
 public class Favorite {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "employee")
+    @Column(name = "employee", nullable = false)
     private Integer emoloyee;
 
-    @Column(name = "report")
+    @Column(name = "report", nullable = false)
     private Integer report;
 
-    @Column(name = "madeday")
-    private Integer madeday;
+    @Column(name = "madeday", nullable = false)
+    private Timestamp madeday;
 
     public Integer getId() {
         return id;
@@ -53,12 +54,11 @@ public class Favorite {
         this.report = report;
     }
 
-    public Integer getMadeday() {
+    public Timestamp getMadeday() {
         return madeday;
     }
 
-    public void setMadeday(Integer madeday) {
+    public void setMadeday(Timestamp madeday) {
         this.madeday = madeday;
     }
-
 }
