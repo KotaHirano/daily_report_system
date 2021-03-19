@@ -17,7 +17,8 @@ import javax.persistence.Table;
     @NamedQuery(
         name = "getAllFavorites",
         query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC"
-    )
+    ),
+    @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Report AS f")
 })
 @Table(name = "favorite")
 public class Favorite {
