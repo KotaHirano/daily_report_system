@@ -11,9 +11,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-@NamedQueries({
-        @NamedQuery(name = "getAllfavorite", query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC") })
+
 @Entity
+@NamedQueries({
+    @NamedQuery(
+        name = "getAllFavorites",
+        query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC"
+    )
+})
 @Table(name = "favorite")
 public class Favorite {
     @Id

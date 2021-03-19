@@ -1,6 +1,7 @@
 package controllers.favorite;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Favorite;
 import utils.DBUtil;
 
 /**
@@ -32,7 +34,11 @@ public class FavoriteIndexServet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
+        List<Favorite> favorites = em.createNamedQuery("getAllFavorites", Favorite.class).getResultList();
+
         em.close();
+
+        request.setAttribute("favorite", favorites);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/favorite/favlist.jsp");
         rd.forward(request, response);

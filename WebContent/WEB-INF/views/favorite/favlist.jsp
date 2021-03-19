@@ -28,6 +28,16 @@
                     </tr>
                 </c:forEach>
             </tbody>
+
+            <c:forEach var="favorite" items="${favorites}">
+                <li>
+
+                        <c:out value="${favorite.id}" />
+
+                    ：<c:out value="${favorite.report}"></c:out> &gt; <c:out value="${favorite.report}" />
+                </li>
+            </c:forEach>
+
         </table>
 
         <p>
