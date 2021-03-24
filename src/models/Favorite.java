@@ -18,7 +18,12 @@ import javax.persistence.Table;
         name = "getAllFavorites",
         query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC"
     ),
-    @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Report AS f")
+    @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Report AS f"),
+    @NamedQuery(
+            name = "checkfavorite",
+            query = "SELECT e FROM Favorite AS e WHERE e.employee = :employee_id AND e.report = :report_id"),
+
+
 })
 @Table(name = "favorite")
 public class Favorite {
@@ -28,7 +33,7 @@ public class Favorite {
     private Integer id;
 
     @Column(name = "employee", nullable = false)
-    private Integer emoloyee;
+    private Integer employee;
 
     @Column(name = "report", nullable = false)
     private Integer report;
@@ -45,11 +50,11 @@ public class Favorite {
     }
 
     public Integer getEmoloyee() {
-        return emoloyee;
+        return getEmoloyee();
     }
 
     public void setEmoloyee(Integer emoloyee) {
-        this.emoloyee = emoloyee;
+        this.employee = emoloyee;
     }
 
     public Integer getReport() {

@@ -9,8 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import models.Employee;
 import models.Favorite;
+import models.Report;
 import utils.DBUtil;
 
 /**
@@ -34,20 +37,33 @@ public class FavoriteCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
+
+        HttpSession session = ((HttpServletRequest)request).getSession();
+        Employee e = (Employee)session.getAttribute("login_employee");
+        Report r = (Report)session.getAttribute("favorite");
+
         // Favoriteのインスタンスを生成
         Favorite f = new Favorite();
 
      // fの各フィールドにデータを代入
-        Integer employee = 1984;
+        Integer employee = e.getId();
         f.setEmoloyee(employee);
 
-        Integer report = 1;
+        Integer report = r.getId();
         f.setReport(report);
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         f.setMadeday(currentTime);
 
+
+
+        em.getTransaction().begin();
+        em.persist(f);
+        em.getTransaction().commit();
         em.close();
+
+        //日報一覧にもどる
+        response.sendRedirect(request.getContextPath() + "/reports/index");
     }
 
 }

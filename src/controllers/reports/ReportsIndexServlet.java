@@ -49,15 +49,14 @@ public class ReportsIndexServlet extends HttpServlet {
         long reports_count = (long) em.createNamedQuery("getReportsCount", Long.class)
                 .getSingleResult();
 
-        long favorite_count = (long) em.createNamedQuery("getfavoritesCount", Long.class)
-                .getSingleResult();
+
 
         em.close();
 
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
-        request.setAttribute("favs", favorite_count);
+
         if (request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");

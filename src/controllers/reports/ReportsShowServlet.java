@@ -3,6 +3,7 @@ package controllers.reports;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
+import models.Favorite;
 import models.Report;
 import utils.DBUtil;
 
@@ -35,10 +38,28 @@ public class ReportsShowServlet extends HttpServlet {
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-        em.close();
+
 
         request.setAttribute("report", r);
+        request.getSession().setAttribute("favorite", r);
         request.setAttribute("_token", request.getSession().getId());
+
+        Favorite f = null;
+        try {
+            f = em.createNamedQuery("checkfavorite", Favorite.class)
+                  .setParameter("employee_id", ((Employee)request.getSession().getAttribute("login_employee")).getId())
+                  .setParameter("report_id", r.getId())
+                  .getSingleResult();
+        } catch(NoResultException ex) {}
+
+
+
+        //スコープにお気に入りの
+        request.setAttribute("favorite", f);
+
+
+        em.close();
+
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
         rd.forward(request, response);
