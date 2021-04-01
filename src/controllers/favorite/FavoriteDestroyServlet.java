@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Favorite;
+import models.Report;
 import utils.DBUtil;
 
 /**
@@ -31,16 +33,28 @@ public class FavoriteDestroyServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        System.out.println("*************************************************");
+        Report fav =  (Report)request.getSession().getAttribute("favorite");
+        System.out.println(fav.getId());
+
+        System.out.println("*****************************************************");
+
+
+
         EntityManager em = DBUtil.createEntityManager();
+        Favorite f = em.find(Favorite.class, (Integer)((Favorite) request.getSession().getAttribute("favorite")).getId());
+
 
         // セッションスコープからお気に入りのIDを取得して
         // 該当のIDのお気に入りをデータベースから取得
 
-        /*
+
+
         em.getTransaction().begin();
         em.remove(f); // データ削除
         em.getTransaction().commit();
-        */
+
         em.close();
 
 

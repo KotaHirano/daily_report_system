@@ -24,6 +24,7 @@ import javax.persistence.Table;
             query = "SELECT e FROM Favorite AS e WHERE e.employee = :employee_id AND e.report = :report_id"),
 
 
+
 })
 @Table(name = "favorite")
 public class Favorite {

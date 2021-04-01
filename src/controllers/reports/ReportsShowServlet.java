@@ -38,12 +38,10 @@ public class ReportsShowServlet extends HttpServlet {
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-
-
         request.setAttribute("report", r);
-        request.getSession().setAttribute("favorite", r);
         request.setAttribute("_token", request.getSession().getId());
 
+        //レポートがお気に入りに追加されているか調べる
         Favorite f = null;
         try {
             f = em.createNamedQuery("checkfavorite", Favorite.class)
@@ -56,6 +54,7 @@ public class ReportsShowServlet extends HttpServlet {
 
         //スコープにお気に入りの
         request.setAttribute("favorite", f);
+
 
 
         em.close();
