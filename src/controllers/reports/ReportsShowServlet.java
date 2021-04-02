@@ -56,17 +56,16 @@ public class ReportsShowServlet extends HttpServlet {
         } catch(NoResultException ex) {}
 
 
-        request.setAttribute("favorite", f); //お気に入り
+        request.getSession().setAttribute("favorite", f); //お気に入り
 
         //favexistにお気に入りの有無を入れてリクエストスコープに保存
 
-        //fの中身
+        //fの中身、お気に入りされていないレポートの開くとNullを出します
         /*
         System.out.println("*************************************************");
         System.out.println(f.getId());
         System.out.println("*************************************************");
         */
-
 
 
         em.close();
