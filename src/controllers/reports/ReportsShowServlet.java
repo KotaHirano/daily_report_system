@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import models.Employee;
 import models.Favorite;
@@ -41,6 +42,10 @@ public class ReportsShowServlet extends HttpServlet {
         request.setAttribute("report", r);
         request.setAttribute("_token", request.getSession().getId());
 
+        //レポートのidをセッションに保存する
+        HttpSession session = request.getSession();
+        session.setAttribute("favreport", r.getId());
+
         //レポートがお気に入りに追加されているか調べる
         Favorite f = null;
         try {
@@ -51,9 +56,16 @@ public class ReportsShowServlet extends HttpServlet {
         } catch(NoResultException ex) {}
 
 
+        request.setAttribute("favorite", f); //お気に入り
 
-        //スコープにお気に入りの
-        request.setAttribute("favorite", f);
+        //favexistにお気に入りの有無を入れてリクエストスコープに保存
+
+        //fの中身
+        /*
+        System.out.println("*************************************************");
+        System.out.println(f.getId());
+        System.out.println("*************************************************");
+        */
 
 
 
