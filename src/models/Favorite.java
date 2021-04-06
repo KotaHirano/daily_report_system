@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -16,14 +18,12 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(
         name = "getAllFavorites",
-        query = "SELECT f FROM Favorite AS f ORDER BY f.id DESC"
+        query = "SELECT f FROM Favorite AS f WHERE f.employee = :employee_id ORDER BY f.id DESC"
     ),
     @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Report AS f"),
     @NamedQuery(
             name = "checkfavorite",
             query = "SELECT e FROM Favorite AS e WHERE e.employee = :employee_id AND e.report = :report_id"),
-
-
 
 })
 @Table(name = "favorite")
@@ -33,11 +33,13 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "employee", nullable = false)
-    private Integer employee;
+    @ManyToOne
+    @JoinColumn(name = "employee", nullable = false)
+    private Employee employee;
 
-    @Column(name = "report", nullable = false)
-    private Integer report;
+    @ManyToOne
+    @JoinColumn(name = "report", nullable = false)
+    private Report report;
 
     @Column(name = "madeday", nullable = false)
     private Timestamp madeday;
@@ -50,19 +52,19 @@ public class Favorite {
         this.id = id;
     }
 
-    public Integer getEmoloyee() {
-        return getEmoloyee();
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmoloyee(Integer emoloyee) {
-        this.employee = emoloyee;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Integer getReport() {
+    public Report getReport() {
         return report;
     }
 
-    public void setReport(Integer report) {
+    public void setReport(Report report) {
         this.report = report;
     }
 
@@ -73,4 +75,6 @@ public class Favorite {
     public void setMadeday(Timestamp madeday) {
         this.madeday = madeday;
     }
+
+
 }

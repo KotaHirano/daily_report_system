@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import models.Employee;
 import models.Favorite;
+import models.Report;
 import utils.DBUtil;
 
 /**
@@ -39,17 +40,15 @@ public class FavoriteCreateServlet extends HttpServlet {
 
         HttpSession session = ((HttpServletRequest)request).getSession();
         Employee e = (Employee)session.getAttribute("login_employee");
-        Integer r = (Integer)session.getAttribute("favreport");
+        Report r = (Report) session.getAttribute("favreport");
 
         // Favoriteのインスタンスを生成
         Favorite f = new Favorite();
 
      // fの各フィールドにデータを代入
-        Integer employee = e.getId();
-        f.setEmoloyee(employee);
+        f.setEmployee(e);
 
-        Integer report = r;
-        f.setReport(report);
+        f.setReport(r);
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         f.setMadeday(currentTime);

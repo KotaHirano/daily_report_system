@@ -44,21 +44,20 @@ public class ReportsShowServlet extends HttpServlet {
 
         //レポートのidをセッションに保存する
         HttpSession session = request.getSession();
-        session.setAttribute("favreport", r.getId());
+        session.setAttribute("favreport", r);
 
         //レポートがお気に入りに追加されているか調べる
         Favorite f = null;
         try {
             f = em.createNamedQuery("checkfavorite", Favorite.class)
-                  .setParameter("employee_id", ((Employee)request.getSession().getAttribute("login_employee")).getId())
-                  .setParameter("report_id", r.getId())
+                  .setParameter("employee_id", (Employee)request.getSession().getAttribute("login_employee"))
+                  .setParameter("report_id", r)
                   .getSingleResult();
         } catch(NoResultException ex) {}
 
 
         request.getSession().setAttribute("favorite", f); //お気に入り
 
-        //favexistにお気に入りの有無を入れてリクエストスコープに保存
 
         //fの中身、お気に入りされていないレポートの開くとNullを出します
         /*

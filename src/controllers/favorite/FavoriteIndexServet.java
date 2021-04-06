@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Favorite;
 import utils.DBUtil;
 
@@ -34,8 +35,9 @@ public class FavoriteIndexServet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
-        List<Favorite> favorites = em.createNamedQuery("getAllFavorites", Favorite.class).getResultList();
-
+        List<Favorite> favorites = em.createNamedQuery("getAllFavorites", Favorite.class)
+                .setParameter("employee_id", ((Employee)request.getSession().getAttribute("login_employee")).getId())
+                .getResultList();
         em.close();
 
         request.setAttribute("favorite", favorites);
