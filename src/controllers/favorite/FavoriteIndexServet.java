@@ -33,14 +33,37 @@ public class FavoriteIndexServet extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         EntityManager em = DBUtil.createEntityManager();
+        //お気に入りのリストを作成
+        int page = 1;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch (NumberFormatException e) {
+        }
+
         List<Favorite> favorites = em.createNamedQuery("getAllFavorites", Favorite.class)
-                .setParameter("employee_id", ((Employee)request.getSession().getAttribute("login_employee")).getId())
+                .setParameter("employee_id", (Employee) request.getSession().getAttribute("login_employee"))
+                .setFirstResult(15 * (page - 1))
+                .setMaxResults(15)
                 .getResultList();
+
+     // 全件数を取得
+        long favorite_count = (long) em.createNamedQuery("getFvoritesCount", Long.class)
+                .setParameter("employee_id", (Employee) request.getSession().getAttribute("login_employee"))
+                .getSingleResult();
+
         em.close();
 
-        request.setAttribute("favorite", favorites);
+        System.out.println("*************************************************");
+        System.out.println(favorites);
+        System.out.println("*****************************************************");
+
+        request.setAttribute("favoritelist", favorites);
+        request.setAttribute("favorite_count", favorite_count); // 全件数
+        request.setAttribute("page", page); // ページ数
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/favorite/favlist.jsp");
         rd.forward(request, response);

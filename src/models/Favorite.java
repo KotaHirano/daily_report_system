@@ -13,17 +13,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 @Entity
 @NamedQueries({
-    @NamedQuery(
-        name = "getAllFavorites",
-        query = "SELECT f FROM Favorite AS f WHERE f.employee = :employee_id ORDER BY f.id DESC"
-    ),
-    @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Report AS f"),
-    @NamedQuery(
-            name = "checkfavorite",
-            query = "SELECT e FROM Favorite AS e WHERE e.employee = :employee_id AND e.report = :report_id"),
+        @NamedQuery(name = "getAllFavorites", query = "SELECT f FROM Favorite AS f WHERE f.employee = :employee_id ORDER BY f.id DESC"),
+        @NamedQuery(name = "getFvoritesCount", query = "SELECT COUNT(f) FROM Favorite AS f WHERE f.employee = :employee_id"),
+        @NamedQuery(name = "checkfavorite", query = "SELECT e FROM Favorite AS e WHERE e.employee = :employee_id AND e.report = :report_id"),
 
 })
 @Table(name = "favorite")
@@ -75,6 +69,5 @@ public class Favorite {
     public void setMadeday(Timestamp madeday) {
         this.madeday = madeday;
     }
-
 
 }

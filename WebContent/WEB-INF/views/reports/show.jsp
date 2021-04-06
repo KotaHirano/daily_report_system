@@ -47,12 +47,12 @@
                 <c:choose>
                     <c:when test="${favorite == null}">
                         <form method="POST" action="<c:url value='/favorite/create' />">
-                            <input type="submit" value="お気に入り">
+                            <input type="submit" value="お気に入りに追加">
                         </form>
                     </c:when>
                     <c:otherwise>
                         <form method="POST" action="<c:url value='/favorite/destroy' />">
-                            <input type="submit" value="お気に入りじゃない">
+                            <input type="submit" value="お気に入りから削除">
                         </form>
 
                     </c:otherwise>
